@@ -1,67 +1,40 @@
+import java.util.*;
+
 public class Main {
     public static void main(String[] args) {
-
-        Book book1 = new Book("OOP", "Ernesto Razo", 300);
-        Book book2 = new Book("War and Peace", "Leo Tolstoy", 1225);
-        Book book3 = new Book("1984", "George Orwell", 328);
+        PostManager pm = new PostManager();
 
 
-        book1.displayInfo();
-        book2.displayInfo();
-        book3.displayInfo();
+        String postTitle = "Java Programming Tips";
+        int engagementScore = pm.calculateEngagement(150, 75, 25);
 
 
-        book1.borrowBook();
-        book1.displayInfo();
+        pm.displayPostStats(postTitle, engagementScore);
+        String category = pm.getCategoryRating(engagementScore);
+        pm.displayPostStats(postTitle, engagementScore, category);
 
-        book1.returnBook();
-        book1.displayInfo();
+
+        String[] hashtags = {"#java", "#coding", "#programming", "#java", "#tips"};
+        ArrayList<String> uniqueHashtags = pm.manageHashtags(hashtags);
+        System.out.println("Unique Hashtags: " + uniqueHashtags);
+
+
+        ArrayList<String> posts = new ArrayList<>();
+        posts.add("Java Programming Tips");
+        posts.add("Spring Boot Guide");
+        posts.add("Beginner Coding Tricks");
+
+        HashMap<String, Integer> postEngagement = new HashMap<>();
+        postEngagement.put("Java Programming Tips", engagementScore);
+        postEngagement.put("Spring Boot Guide", 600);
+        postEngagement.put("Beginner Coding Tricks", 40);
+
+        LinkedList<String> trendingPosts = pm.findTrendingPosts(posts, postEngagement);
+        System.out.println("Trending Posts: " + trendingPosts);
+
+
+        HashSet<String> authors = pm.getUniqueAuthors("Alice", "Bob", "Alice", "Charlie", "Bob");
+        System.out.println("Unique Authors: " + authors);
     }
 }
 
-
-class Book {
-
-    String title;
-    String author;
-    int pages;
-    boolean isAvailable;
-
-
-    public Book(String title, String author, int pages) {
-        this.title = title;
-        this.author = author;
-        this.pages = pages;
-        this.isAvailable = true;
-        System.out.println("A new book '" + title + "' by " + author + " has been added to the library!");
-    }
-
-
-    public void displayInfo() {
-        System.out.println("\nBook Info:");
-        System.out.println("Title: " + title);
-        System.out.println("Author: " + author);
-        System.out.println("Pages: " + pages);
-        System.out.println("Available: " + (isAvailable ? "Yes" : "No"));
-    }
-
-
-    public void borrowBook() {
-        if (isAvailable) {
-            isAvailable = false;
-            System.out.println("\nYou have borrowed '" + title + "'.");
-        } else {
-            System.out.println("\nSorry, '" + title + "' is already borrowed.");
-        }
-    }
-
-
-    public void returnBook() {
-        if (!isAvailable) {
-            isAvailable = true;
-            System.out.println("\nYou have returned '" + title + "'.");
-        } else {
-            System.out.println("\n'" + title + "' was not borrowed.");
-        }
-    }
-}

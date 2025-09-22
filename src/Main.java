@@ -1,67 +1,64 @@
 public class Main {
     public static void main(String[] args) {
-
-        Book book1 = new Book("OOP", "Ernesto Razo", 300);
-        Book book2 = new Book("War and Peace", "Leo Tolstoy", 1225);
-        Book book3 = new Book("1984", "George Orwell", 328);
+        System.out.println("Adding books to Library...\n");
 
 
-        book1.displayInfo();
-        book2.displayInfo();
-        book3.displayInfo();
+        Book book1 = new Book("Java Programming", "John Smith", "1234567890", 2020);
+        Book book2 = new Book("Data Structures", "Jane Doe", "9876543210", 2019);
+        Book book3 = new Book("Web Development", "Mike Johnson", "5555666677", 2021);
 
 
-        book1.borrowBook();
-        book1.displayInfo();
-
-        book1.returnBook();
-        book1.displayInfo();
-    }
-}
+        Library library = new Library();
 
 
-class Book {
-
-    String title;
-    String author;
-    int pages;
-    boolean isAvailable;
+        library.addBook(book1);
+        library.addBook(book2);
+        library.addBook(book3);
 
 
-    public Book(String title, String author, int pages) {
-        this.title = title;
-        this.author = author;
-        this.pages = pages;
-        this.isAvailable = true;
-        System.out.println("A new book '" + title + "' by " + author + " has been added to the library!");
-    }
+        library.displayAllBooks();
 
-
-    public void displayInfo() {
-        System.out.println("\nBook Info:");
-        System.out.println("Title: " + title);
-        System.out.println("Author: " + author);
-        System.out.println("Pages: " + pages);
-        System.out.println("Available: " + (isAvailable ? "Yes" : "No"));
-    }
-
-
-    public void borrowBook() {
-        if (isAvailable) {
-            isAvailable = false;
-            System.out.println("\nYou have borrowed '" + title + "'.");
+        System.out.println("\nBorrowing Java Programming...");
+        if (library.borrowBook("1234567890")) {
+            System.out.println("Book borrowed successfully!\n");
         } else {
-            System.out.println("\nSorry, '" + title + "' is already borrowed.");
+            System.out.println("Book is not available for borrowing.\n");
         }
-    }
 
 
-    public void returnBook() {
-        if (!isAvailable) {
-            isAvailable = true;
-            System.out.println("\nYou have returned '" + title + "'.");
+        System.out.println("Trying to borrow Java Programming again...");
+        if (library.borrowBook("1234567890")) {
+            System.out.println("Book borrowed successfully!\n");
         } else {
-            System.out.println("\n'" + title + "' was not borrowed.");
+            System.out.println("Book is not available for borrowing.\n");
+        }
+
+
+        library.displayAvailableBooks();
+
+
+        System.out.println("\nReturning Java Programming...");
+        if (library.returnBook("1234567890")) {
+            System.out.println("Book returned successfully!\n");
+        } else {
+            System.out.println("Book was already returned.\n");
+        }
+
+
+        library.displayAvailableBooks();
+
+
+        System.out.println("\nTesting validation...");
+        try {
+            Book invalidBook = new Book("Invalid Book", "Unknown", "12345", 1400);  // Invalid year
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid year provided. Year must be between 1450 and 2025.");
+        }
+
+        try {
+            Book invalidIsbnBook = new Book("Another Invalid Book", "Unknown", "12345", 2020);  // Invalid ISBN
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid ISBN. ISBN must be 10 or 13 characters long.");
         }
     }
 }

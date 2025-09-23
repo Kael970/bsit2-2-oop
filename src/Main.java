@@ -1,67 +1,46 @@
 public class Main {
     public static void main(String[] args) {
+        System.out.println("═══ Library Management System Demo ═══");
 
-        Book book1 = new Book("OOP", "Ernesto Razo", 300);
-        Book book2 = new Book("War and Peace", "Leo Tolstoy", 1225);
-        Book book3 = new Book("1984", "George Orwell", 328);
+      
+        Media book1 = new Book("Java Fundamentals", "B001", "Robert Martin");
+        Media dvd1 = new DVD("OOP Concepts", "D001", "Tech Films");
+        Media mag1 = new Magazine("Programming Weekly", "M001", 15);
 
+     
+        LibraryUser student = new Student("Alice Johnson", "S12345");
+        LibraryUser teacher = new Teacher("Dr. Smith", "T001");
+        LibraryUser librarian = new Librarian("Mary Brown", "L001");
 
-        book1.displayInfo();
-        book2.displayInfo();
-        book3.displayInfo();
+       
+        System.out.println("\nAvailable Media:");
+        displayMediaInfo(book1);
+        displayMediaInfo(dvd1);
+        displayMediaInfo(mag1);
 
+        
+        System.out.println("\n═══ Borrowing Test ═══");
+        student.borrowMedia(book1);
+        teacher.borrowMedia(dvd1);
+        student.borrowMedia(book1); 
 
-        book1.borrowBook();
-        book1.displayInfo();
+    
+        System.out.println("\n═══ Returning Test ═══");
+        student.returnMedia(book1);
+        librarian.borrowMedia(book1);
 
-        book1.returnBook();
-        book1.displayInfo();
-    }
-}
-
-
-class Book {
-
-    String title;
-    String author;
-    int pages;
-    boolean isAvailable;
-
-
-    public Book(String title, String author, int pages) {
-        this.title = title;
-        this.author = author;
-        this.pages = pages;
-        this.isAvailable = true;
-        System.out.println("A new book '" + title + "' by " + author + " has been added to the library!");
-    }
-
-
-    public void displayInfo() {
-        System.out.println("\nBook Info:");
-        System.out.println("Title: " + title);
-        System.out.println("Author: " + author);
-        System.out.println("Pages: " + pages);
-        System.out.println("Available: " + (isAvailable ? "Yes" : "No"));
+    
+        System.out.println("\n═══ User Information ═══");
+        displayUserInfo(student);
+        displayUserInfo(teacher);
+        displayUserInfo(librarian);
     }
 
-
-    public void borrowBook() {
-        if (isAvailable) {
-            isAvailable = false;
-            System.out.println("\nYou have borrowed '" + title + "'.");
-        } else {
-            System.out.println("\nSorry, '" + title + "' is already borrowed.");
-        }
+    public static void displayMediaInfo(Media media) {
+        media.displayInfo();
     }
 
-
-    public void returnBook() {
-        if (!isAvailable) {
-            isAvailable = true;
-            System.out.println("\nYou have returned '" + title + "'.");
-        } else {
-            System.out.println("\n'" + title + "' was not borrowed.");
-        }
+    public static void displayUserInfo(LibraryUser user) {
+        System.out.println(user.getUserType() + " - Max borrow limit: " + user.getMaxBorrowLimit() + " items");
     }
 }
